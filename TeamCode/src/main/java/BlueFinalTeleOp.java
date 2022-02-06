@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+import java.util.concurrent.TimeUnit;
+
 @TeleOp(name="BlueFinalTeleOp", group="Linear Opmode")
 public class BlueFinalTeleOp extends LinearOpMode {
 
@@ -29,12 +31,14 @@ public class BlueFinalTeleOp extends LinearOpMode {
     public final double dropPosition = 0.85; //to drop element
     public boolean onOff = false;
     public boolean turtleMode = false;
-    public static final double NORMAL_SPEED = 0.7;
-    public static final double TURTLE_SPEED = 0.35;
+    public static final double NORMAL_SPEED = 0.9;
+    public static final double TURTLE_SPEED = 0.3;
     public double robotSpeed = NORMAL_SPEED;
 
     public DcMotorEx liftMotor;
 
+    //public DistanceSensor rdsSensorLeft;
+    //public DistanceSensor rdsSensorRight;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,6 +53,8 @@ public class BlueFinalTeleOp extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
+            //rdsSensorLeft = hardwareMap.get(DistanceSensor.class, "rdsSensor");
+            //rdsSensorRight = hardwareMap.get(DistanceSensor.class, "rdsSensor");
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
         bucketServo = hardwareMap.get(Servo.class, "bucketServo");
         leftCarouselServo = hardwareMap.get(CRServo.class, "leftCarouselServo");
@@ -143,6 +149,27 @@ public class BlueFinalTeleOp extends LinearOpMode {
                 turtleMode = false;
                 robotSpeed = NORMAL_SPEED;
             }
+
+            /*
+            //distanceMode Enabled
+            if(runtime.time(TimeUnit.SECONDS) < 90) {
+                if (rdsSensor.getDistance(DistanceUnit.INCH) < 35) {
+                    double distance = rdsSensor.getDistance(DistanceUnit.INCH);
+                    telemetry.addData("DETECTED: ", distance);
+                    if (distance > 15) {
+                        robotSpeed = 0.5;
+                    } else if (distance > 10 && distance < 15) {
+                        robotSpeed = 0.3;
+                    } else if (distance < 10) {
+                        robotSpeed = 0.1;
+                    }
+                }
+            }
+            else {
+                telemetry.addData("Not Detected", "rip");
+                robotSpeed = NORMAL_SPEED;
+            }
+            */
 
             //movement
             drive.setWeightedDrivePower(

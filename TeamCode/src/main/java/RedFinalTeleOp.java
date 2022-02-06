@@ -32,7 +32,7 @@ public class RedFinalTeleOp extends LinearOpMode {
     public boolean onOff = false;
     public boolean turtleMode = false;
     public static final double NORMAL_SPEED = 0.9;
-    public static final double TURTLE_SPEED = 0.35;
+    public static final double TURTLE_SPEED = 0.3;
     public double robotSpeed = NORMAL_SPEED;
 
     //public DistanceSensor rdsSensorLeft;
@@ -171,17 +171,17 @@ public class RedFinalTeleOp extends LinearOpMode {
 
             /*
             //distanceMode Enabled
-            if (rdsSensor.getDistance(DistanceUnit.INCH) < 35) {
-                double distance = rdsSensor.getDistance(DistanceUnit.INCH);
-                telemetry.addData("DETECTED: ", distance);
-                if(distance > 15) {
-                    robotSpeed = 0.5;
-                }
-                else if(distance > 10 && distance < 15) {
-                    robotSpeed = 0.3;
-                }
-                else if(distance < 10) {
-                    robotSpeed = 0.1;
+            if(runtime.time(TimeUnit.SECONDS) < 90) {
+                if (rdsSensor.getDistance(DistanceUnit.INCH) < 35) {
+                    double distance = rdsSensor.getDistance(DistanceUnit.INCH);
+                    telemetry.addData("DETECTED: ", distance);
+                    if (distance > 15) {
+                        robotSpeed = 0.5;
+                    } else if (distance > 10 && distance < 15) {
+                        robotSpeed = 0.3;
+                    } else if (distance < 10) {
+                        robotSpeed = 0.1;
+                    }
                 }
             }
             else {
