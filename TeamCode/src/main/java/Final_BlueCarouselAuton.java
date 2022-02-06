@@ -99,7 +99,7 @@ public class Final_BlueCarouselAuton extends LinearOpMode {
         bucketServo.setPosition(LIFT_POSITION);
         if(bd.getZone() == TOP_LEVEL){
             Trajectory dropBlock = drive.trajectoryBuilder(startPose)
-                    .lineToLinearHeading(new Pose2d(26.75, 11, 60))
+                    .lineToLinearHeading(new Pose2d(26.75, 11, 45))
                     .build();
             Trajectory goBack = drive.trajectoryBuilder(dropBlock.end())
                     .lineToLinearHeading(new Pose2d(4,0))
