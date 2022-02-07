@@ -91,7 +91,7 @@ public class RedCarouselAuton extends LinearOpMode {
         bucketServo.setPosition(INTAKE_POSITION);
         waitForStart();
         if (isStopRequested()) return;
-        frontCamCV.stopStreaming();
+        //frontCamCV.stopStreaming();
 
         Pose2d startPose = new Pose2d(0, 0, 0);
         drive.setPoseEstimate(startPose);

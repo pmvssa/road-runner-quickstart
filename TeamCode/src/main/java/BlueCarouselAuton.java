@@ -91,7 +91,7 @@ public class BlueCarouselAuton extends LinearOpMode {
         bucketServo.setPosition(INTAKE_POSITION);
         waitForStart();
         if (isStopRequested()) return;
-        frontCamCV.stopStreaming();
+        //frontCamCV.stopStreaming();
 
         Pose2d startPose = new Pose2d(0, 0, 0);
         drive.setPoseEstimate(startPose);
@@ -116,7 +116,7 @@ public class BlueCarouselAuton extends LinearOpMode {
                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                    .build();
            Trajectory moreIntake = drive.trajectoryBuilder(pickDuck.end())
-                   .lineToLinearHeading(new Pose2d(0.5,-17),SampleMecanumDrive.getVelocityConstraint(10 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                   .lineToLinearHeading(new Pose2d(0,-16),SampleMecanumDrive.getVelocityConstraint(10 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                    .build();
            Trajectory dropBlock2 = drive.trajectoryBuilder(moreIntake.end())
@@ -128,7 +128,6 @@ public class BlueCarouselAuton extends LinearOpMode {
            Trajectory park = drive.trajectoryBuilder(backten.end())
                    .lineToLinearHeading(new Pose2d(30, -24))
                    .build();
-           //Thread.sleep(3000);
            drive.followTrajectory(dropBlock);
            dropBlock(TOP_LEVEL);
            liftReset();
@@ -145,7 +144,6 @@ public class BlueCarouselAuton extends LinearOpMode {
            dropBlock(TOP_LEVEL);
            liftReset();
            drive.followTrajectory(backten);
-
            drive.followTrajectory(park);
 
         }  else if(bd.getZone() == MIDDLE_LEVEL){
