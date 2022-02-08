@@ -19,6 +19,7 @@ public class RedFinalTeleOp extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     //Hardware
+    public DcMotorEx liftMotor;
     public DcMotorEx intakeMotor;
     public Servo bucketServo;
     public CRServo leftCarouselServo;
@@ -37,9 +38,6 @@ public class RedFinalTeleOp extends LinearOpMode {
 
     //public DistanceSensor rdsSensorLeft;
     //public DistanceSensor rdsSensorRight;
-
-    public DcMotorEx liftMotor;
-
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -120,14 +118,14 @@ public class RedFinalTeleOp extends LinearOpMode {
                 onOff = false;
             }
 
-            //Lift //base(2.5 rot), mid (3 rot), high (4) -  for auton
+            //Lift
             if(gamepad2.left_trigger != 0 || gamepad1.left_trigger != 0 && liftMotor.getCurrentPosition() >= -100) {
                 liftMotor.setPower(-0.45);
             }
             else if(gamepad2.right_trigger != 0 || gamepad1.right_trigger != 0 && liftMotor.getCurrentPosition() <= 2100) {
-//                if(liftMotor.getCurrentPosition() >= 1200) {
-//                    liftMotor.setPower(0.5);
-//                }
+                if(liftMotor.getCurrentPosition() >= 1200) {
+                    liftMotor.setPower(0.5);
+               }
                 liftMotor.setPower(0.85);
             }
             else {
@@ -153,17 +151,31 @@ public class RedFinalTeleOp extends LinearOpMode {
             //Capping Servo
             if(gamepad2.left_stick_y < 0) {
                 capServo.setPosition(capServo.getPosition() - 0.04);
-                Thread.sleep(150);
+                Thread.sleep(50);
             }
             else if(gamepad2.left_stick_y > 0) {
                 capServo.setPosition(capServo.getPosition() + 0.04);
-                Thread.sleep(150);
+                Thread.sleep(50);
             }
             else if(gamepad2.dpad_up) {
-                capServo.setPosition(0);
+                if(capServo.getPosition() > 0.2) {
+                    capServo.setDirection(Servo.Direction.REVERSE);
+                    capServo.setPosition(0.2);
+                }
+                else {
+                    capServo.setDirection(Servo.Direction.FORWARD);
+                    capServo.setPosition(0.2);
+                }
             }
             else if(gamepad2.dpad_down) {
-                capServo.setPosition(0.5);
+                if(capServo.getPosition() > 0.8) {
+                    capServo.setDirection(Servo.Direction.REVERSE);
+                    capServo.setPosition(0.8);
+                }
+                else {
+                    capServo.setDirection(Servo.Direction.FORWARD);
+                    capServo.setPosition(0.8);
+                }
             }
             else {
                 capServo.setPosition(capServo.getPosition());

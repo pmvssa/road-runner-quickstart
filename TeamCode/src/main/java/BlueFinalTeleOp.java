@@ -19,6 +19,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     //Hardware
+    public DcMotorEx liftMotor;
     public DcMotorEx intakeMotor;
     public Servo bucketServo;
     public CRServo leftCarouselServo;
@@ -34,8 +35,6 @@ public class BlueFinalTeleOp extends LinearOpMode {
     public static final double NORMAL_SPEED = 0.9;
     public static final double TURTLE_SPEED = 0.3;
     public double robotSpeed = NORMAL_SPEED;
-
-    public DcMotorEx liftMotor;
 
     //public DistanceSensor rdsSensorLeft;
     //public DistanceSensor rdsSensorRight;
@@ -73,7 +72,6 @@ public class BlueFinalTeleOp extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
@@ -94,7 +92,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
                 }
             }
 
-            //bucketServo drop
+            //bucketServo
             if(gamepad2.dpad_left || gamepad1.dpad_left) {
                 bucketServo.setDirection(Servo.Direction.REVERSE);
                 bucketServo.setPosition(dropPosition);
@@ -120,7 +118,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
                 onOff = false;
             }
 
-            //Lift //base(2.5 rot), mid (3 rot), high (4) -  for auton
+            //Lift
             if(gamepad2.left_trigger != 0 || gamepad1.left_trigger != 0 && liftMotor.getCurrentPosition() >= -100) {
                 liftMotor.setPower(-0.45);
             }
@@ -183,23 +181,35 @@ public class BlueFinalTeleOp extends LinearOpMode {
             //Capping Servo
             if(gamepad2.left_stick_y < 0) {
                 capServo.setPosition(capServo.getPosition() - 0.04);
-                Thread.sleep(150);
+                Thread.sleep(50);
             }
             else if(gamepad2.left_stick_y > 0) {
                 capServo.setPosition(capServo.getPosition() + 0.04);
-                Thread.sleep(150);
+                Thread.sleep(50);
             }
             else if(gamepad2.dpad_up) {
-                capServo.setPosition(0.2);
+                if(capServo.getPosition() > 0.2) {
+                    capServo.setDirection(Servo.Direction.REVERSE);
+                    capServo.setPosition(0.2);
+                }
+                else {
+                    capServo.setDirection(Servo.Direction.FORWARD);
+                    capServo.setPosition(0.2);
+                }
             }
             else if(gamepad2.dpad_down) {
-                capServo.setPosition(0.8);
+                if(capServo.getPosition() > 0.8) {
+                    capServo.setDirection(Servo.Direction.REVERSE);
+                    capServo.setPosition(0.8);
+                }
+                else {
+                    capServo.setDirection(Servo.Direction.FORWARD);
+                    capServo.setPosition(0.8);
+                }
             }
             else {
                 capServo.setPosition(capServo.getPosition());
             }
-
-
 
             // Update everything. Odometry. Etc.
             drive.update();
@@ -209,6 +219,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
             telemetry.addData("Motor Power ", drive.getWheelVelocities());
             telemetry.addData("LiftMotor Position: ", liftMotor.getCurrentPosition());
             telemetry.addData("BucketServo Position: ", bucketServo.getPosition());
+            telemetry.addData("CapServo Position: ", capServo.getPosition());
             telemetry.addData("DriveMode: ", (turtleMode)? ("turtleMode"):("Normal"));
             telemetry.update();
         }
