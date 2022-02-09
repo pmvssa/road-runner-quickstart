@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+import java.util.concurrent.TimeUnit;
+
 @TeleOp(name="RedFinalTeleOp", group="Linear Opmode")
 public class RedFinalTeleOp extends LinearOpMode {
 
@@ -27,8 +29,8 @@ public class RedFinalTeleOp extends LinearOpMode {
     public Servo capServo;
 
     //otherVariables
-    public final double intakePosition = 0.31; //for bucketServo
-    public final double liftPosition = 0.41; //while going up
+    public final double intakePosition = 0.35; //for bucketServo
+    public final double liftPosition = 0.45; //while going up
     public final double dropPosition = 0.85; //to drop element
     public boolean onOff = false;
     public boolean turtleMode = false;
@@ -36,8 +38,8 @@ public class RedFinalTeleOp extends LinearOpMode {
     public static final double TURTLE_SPEED = 0.3;
     public double robotSpeed = NORMAL_SPEED;
 
-    //public DistanceSensor rdsSensorLeft;
-    //public DistanceSensor rdsSensorRight;
+    public DistanceSensor rdsSensorLeft;
+    public DistanceSensor rdsSensorRight;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -52,8 +54,8 @@ public class RedFinalTeleOp extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-            //rdsSensorLeft = hardwareMap.get(DistanceSensor.class, "rdsSensor");
-            //rdsSensorRight = hardwareMap.get(DistanceSensor.class, "rdsSensor");
+        rdsSensorLeft = hardwareMap.get(DistanceSensor.class, "rdsSensorLeft");
+        rdsSensorRight = hardwareMap.get(DistanceSensor.class, "rdsSensorRight");
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
         bucketServo = hardwareMap.get(Servo.class, "bucketServo");
         capServo = hardwareMap.get(Servo.class, "capServo");
@@ -159,21 +161,21 @@ public class RedFinalTeleOp extends LinearOpMode {
             }
             else if(gamepad2.dpad_up) {
                 if(capServo.getPosition() > 0.2) {
-                    capServo.setDirection(Servo.Direction.REVERSE);
+                    capServo.setDirection(Servo.Direction.FORWARD);
                     capServo.setPosition(0.2);
                 }
                 else {
-                    capServo.setDirection(Servo.Direction.FORWARD);
+                    capServo.setDirection(Servo.Direction.REVERSE);
                     capServo.setPosition(0.2);
                 }
             }
             else if(gamepad2.dpad_down) {
                 if(capServo.getPosition() > 0.8) {
-                    capServo.setDirection(Servo.Direction.REVERSE);
+                    capServo.setDirection(Servo.Direction.FORWARD);
                     capServo.setPosition(0.8);
                 }
                 else {
-                    capServo.setDirection(Servo.Direction.FORWARD);
+                    capServo.setDirection(Servo.Direction.REVERSE);
                     capServo.setPosition(0.8);
                 }
             }
@@ -181,26 +183,25 @@ public class RedFinalTeleOp extends LinearOpMode {
                 capServo.setPosition(capServo.getPosition());
             }
 
-            /*
-            //distanceMode Enabled
-            if(runtime.time(TimeUnit.SECONDS) < 90) {
-                if (rdsSensor.getDistance(DistanceUnit.INCH) < 35) {
-                    double distance = rdsSensor.getDistance(DistanceUnit.INCH);
+
+            //RDS
+            if(runtime.time(TimeUnit.SECONDS) < 90 && NORMAL_SPEED != TURTLE_SPEED) {
+                if ((rdsSensorLeft.getDistance(DistanceUnit.INCH) < 35) || (rdsSensorRight.getDistance(DistanceUnit.INCH) < 35)) {
+                    double distanceLeft = rdsSensorLeft.getDistance(DistanceUnit.INCH);
+                    double distanceRight = rdsSensorRight.getDistance(DistanceUnit.INCH);
+                    double distance = Math.min(distanceRight, distanceLeft);
                     telemetry.addData("DETECTED: ", distance);
                     if (distance > 15) {
                         robotSpeed = 0.5;
-                    } else if (distance > 10 && distance < 15) {
-                        robotSpeed = 0.3;
-                    } else if (distance < 10) {
-                        robotSpeed = 0.1;
+                    } else if (distance < 15) {
+                        robotSpeed = 0.2;
                     }
+                } else {
+                    telemetry.addData("Not Detected", "rip");
+                    robotSpeed = NORMAL_SPEED;
                 }
             }
-            else {
-                telemetry.addData("Not Detected", "rip");
-                robotSpeed = NORMAL_SPEED;
-            }
-            */
+
 
             //movement
             drive.setWeightedDrivePower(
@@ -216,10 +217,11 @@ public class RedFinalTeleOp extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            //telemetry.addData("Motor Power ", drive.getWheelVelocities());
+            telemetry.addData("Motor Power ", drive.getWheelVelocities());
             telemetry.addData("LiftMotor Position: ", liftMotor.getCurrentPosition());
             telemetry.addData("BucketServo Position: ", bucketServo.getPosition());
             telemetry.addData("DriveMode: ", (turtleMode)? ("turtleMode"):("Normal"));
+            telemetry.addData("CapServo Position: ", capServo.getPosition());
             telemetry.addData("Normal Speed: ", robotSpeed);
             telemetry.update();
         }

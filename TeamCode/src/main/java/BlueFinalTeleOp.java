@@ -5,9 +5,11 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.concurrent.TimeUnit;
@@ -36,8 +38,8 @@ public class BlueFinalTeleOp extends LinearOpMode {
     public static final double TURTLE_SPEED = 0.3;
     public double robotSpeed = NORMAL_SPEED;
 
-    //public DistanceSensor rdsSensorLeft;
-    //public DistanceSensor rdsSensorRight;
+    public DistanceSensor rdsSensorLeft;
+    public DistanceSensor rdsSensorRight;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -52,8 +54,8 @@ public class BlueFinalTeleOp extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-            //rdsSensorLeft = hardwareMap.get(DistanceSensor.class, "rdsSensor");
-            //rdsSensorRight = hardwareMap.get(DistanceSensor.class, "rdsSensor");
+        rdsSensorLeft = hardwareMap.get(DistanceSensor.class, "rdsSensorLeft");
+        rdsSensorRight = hardwareMap.get(DistanceSensor.class, "rdsSensorRight");
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
         bucketServo = hardwareMap.get(Servo.class, "bucketServo");
         leftCarouselServo = hardwareMap.get(CRServo.class, "leftCarouselServo");
@@ -148,26 +150,23 @@ public class BlueFinalTeleOp extends LinearOpMode {
                 robotSpeed = NORMAL_SPEED;
             }
 
-            /*
-            //distanceMode Enabled
+            //RDS
             if(runtime.time(TimeUnit.SECONDS) < 90) {
-                if (rdsSensor.getDistance(DistanceUnit.INCH) < 35) {
-                    double distance = rdsSensor.getDistance(DistanceUnit.INCH);
+                if ((rdsSensorLeft.getDistance(DistanceUnit.INCH) < 35) || (rdsSensorRight.getDistance(DistanceUnit.INCH) < 35)) {
+                    double distanceLeft = rdsSensorLeft.getDistance(DistanceUnit.INCH);
+                    double distanceRight = rdsSensorRight.getDistance(DistanceUnit.INCH);
+                    double distance = Math.min(distanceRight, distanceLeft);
                     telemetry.addData("DETECTED: ", distance);
                     if (distance > 15) {
                         robotSpeed = 0.5;
-                    } else if (distance > 10 && distance < 15) {
-                        robotSpeed = 0.3;
-                    } else if (distance < 10) {
-                        robotSpeed = 0.1;
+                    } else if (distance < 15) {
+                        robotSpeed = 0.2;
                     }
+                } else {
+                    telemetry.addData("Not Detected", "rip");
+                    robotSpeed = NORMAL_SPEED;
                 }
             }
-            else {
-                telemetry.addData("Not Detected", "rip");
-                robotSpeed = NORMAL_SPEED;
-            }
-            */
 
             //movement
             drive.setWeightedDrivePower(
