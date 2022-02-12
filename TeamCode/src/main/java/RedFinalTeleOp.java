@@ -31,11 +31,11 @@ public class RedFinalTeleOp extends LinearOpMode {
     //otherVariables
     public final double intakePosition = 0.35; //for bucketServo
     public final double liftPosition = 0.45; //while going up
-    public final double dropPosition = 0.85; //to drop element
+    public final double dropPosition = 0.87; //to drop element
     public boolean onOff = false;
     public boolean turtleMode = false;
-    public static final double NORMAL_SPEED = 0.9;
-    public static final double TURTLE_SPEED = 0.3;
+    public static final double NORMAL_SPEED = 0.8;
+    public static final double TURTLE_SPEED = 0.25;
     public double robotSpeed = NORMAL_SPEED;
 
     public DistanceSensor rdsSensorLeft;
@@ -86,12 +86,7 @@ public class RedFinalTeleOp extends LinearOpMode {
                 intakeMotor.setPower(0.9); //intake
             }
             else {
-                if(intakeMotor.getCurrentPosition() > 400) { //to counteract the slip
-                    intakeMotor.setPower(0.05);
-                }
-                else {
-                    intakeMotor.setPower(0);
-                }
+                intakeMotor.setPower(0);
             }
 
             //bucketServo drop
@@ -140,6 +135,12 @@ public class RedFinalTeleOp extends LinearOpMode {
                 }
             }
 
+            //lift + bucket reset
+            if((gamepad2.b || gamepad1.b) && liftMotor.getCurrentPosition() > 0) {
+                bucketServo.setPosition(liftPosition);
+                liftMotor.setPower(-0.30);
+            }
+
             //turtleMode
             if(gamepad1.y && !turtleMode) {
                 turtleMode = true;
@@ -152,11 +153,11 @@ public class RedFinalTeleOp extends LinearOpMode {
 
             //Capping Servo
             if(gamepad2.left_stick_y < 0) {
-                capServo.setPosition(capServo.getPosition() - 0.04);
+                capServo.setPosition(capServo.getPosition() - 0.035);
                 Thread.sleep(50);
             }
             else if(gamepad2.left_stick_y > 0) {
-                capServo.setPosition(capServo.getPosition() + 0.04);
+                capServo.setPosition(capServo.getPosition() + 0.035);
                 Thread.sleep(50);
             }
             else if(gamepad2.dpad_up) {
@@ -164,20 +165,10 @@ public class RedFinalTeleOp extends LinearOpMode {
                     capServo.setDirection(Servo.Direction.FORWARD);
                     capServo.setPosition(0.2);
                 }
-                else {
-                    capServo.setDirection(Servo.Direction.REVERSE);
-                    capServo.setPosition(0.2);
-                }
             }
             else if(gamepad2.dpad_down) {
-                if(capServo.getPosition() > 0.8) {
-                    capServo.setDirection(Servo.Direction.FORWARD);
-                    capServo.setPosition(0.8);
-                }
-                else {
                     capServo.setDirection(Servo.Direction.REVERSE);
-                    capServo.setPosition(0.8);
-                }
+                    capServo.setPosition(0.85);
             }
             else {
                 capServo.setPosition(capServo.getPosition());
@@ -198,7 +189,9 @@ public class RedFinalTeleOp extends LinearOpMode {
                     }
                 } else {
                     telemetry.addData("Not Detected", "rip");
-                    robotSpeed = NORMAL_SPEED;
+                    if(!turtleMode) {
+                        robotSpeed = NORMAL_SPEED;
+                    }
                 }
             }
 
@@ -227,6 +220,8 @@ public class RedFinalTeleOp extends LinearOpMode {
         }
     }
 }
+
+
 
 
 
