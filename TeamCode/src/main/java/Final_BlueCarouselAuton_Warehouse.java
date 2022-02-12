@@ -34,7 +34,7 @@ public class Final_BlueCarouselAuton_Warehouse extends LinearOpMode {
     private BarcodeDetector bd;
 
     //bucketServo Stages
-    public static final double INTAKE_POSITION = 0.3;
+    public static final double INTAKE_POSITION = 0.35;
     public static final double LIFT_POSITION = 0.40;
     public static final double DROP_POSITION = 0.85;
 
@@ -180,7 +180,7 @@ public class Final_BlueCarouselAuton_Warehouse extends LinearOpMode {
                     .back(50)
                     .build();
             drive.followTrajectory(dropBlock);
-            dropBlock(BOTTOM_LEVEL);
+            dropBlock(MIDDLE_LEVEL);
             liftReset();
             drive.followTrajectory(goBack);
             drive.followTrajectory(partCarousel);
