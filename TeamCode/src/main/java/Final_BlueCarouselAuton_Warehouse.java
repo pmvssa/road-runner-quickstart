@@ -40,7 +40,7 @@ public class Final_BlueCarouselAuton_Warehouse extends LinearOpMode {
 
     //liftMotor Stages
     public static final int BOTTOM_LEVEL_POSITION = 1150;
-    public static final int MIDDLE_LEVEL_POSITION = 1600;
+    public static final int MIDDLE_LEVEL_POSITION = 1550;
     public static final int TOP_LEVEL_POSITION = 2000;
 
     //Levels
@@ -287,7 +287,7 @@ public class Final_BlueCarouselAuton_Warehouse extends LinearOpMode {
         Thread.sleep(600);
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotor.setPower(-0.60);
+        liftMotor.setPower(-0.70);
         Thread.sleep(2000);
         bucketServo.setPosition(INTAKE_POSITION);
     }

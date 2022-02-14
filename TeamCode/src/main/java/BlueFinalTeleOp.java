@@ -34,6 +34,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
     public final double dropPosition = 0.87; //to drop element
     public boolean onOff = false;
     public boolean turtleMode = false;
+    public boolean rds = true;
     public static final double NORMAL_SPEED = 0.8;
     public static final double TURTLE_SPEED = 0.25;
     public double robotSpeed = NORMAL_SPEED;
@@ -127,9 +128,8 @@ public class BlueFinalTeleOp extends LinearOpMode {
             }
             else {
                 liftMotor.setPower(0.0);
-                if(liftMotor.getCurrentPosition() >= 1500) {
-                    liftMotor.setPower(0.025);
-                   // liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                if((gamepad2.left_trigger == 0 && gamepad1.left_trigger == 0) && (!gamepad1.b && !gamepad2.b) && liftMotor.getCurrentPosition() >= 1000) {
+                    liftMotor.setPower(0.02);
                 }
                 else {
                     liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -153,31 +153,35 @@ public class BlueFinalTeleOp extends LinearOpMode {
             }
 
             //RDS
-            if(runtime.time(TimeUnit.SECONDS) < 90) {
-                if ((rdsSensorLeft.getDistance(DistanceUnit.INCH) < 35) || (rdsSensorRight.getDistance(DistanceUnit.INCH) < 35)) {
-                    double distanceLeft = rdsSensorLeft.getDistance(DistanceUnit.INCH);
-                    double distanceRight = rdsSensorRight.getDistance(DistanceUnit.INCH);
-                    double distance = Math.min(distanceRight, distanceLeft);
-                    telemetry.addData("DETECTED: ", distance);
-                    if (distance > 15) {
-                        robotSpeed = 0.5;
-                    } else if (distance < 15) {
-                        robotSpeed = 0.2;
-                    }
-                } else {
-                    telemetry.addData("Not Detected", "rip");
-                    if(!turtleMode) {
-                        robotSpeed = NORMAL_SPEED;
+            if(gamepad1.x) {
+                rds = false;
+            }
+            if(!turtleMode && rds) {
+                if(runtime.time(TimeUnit.SECONDS) < 90 && !turtleMode) {
+                    if ((rdsSensorLeft.getDistance(DistanceUnit.INCH) < 35) || (rdsSensorRight.getDistance(DistanceUnit.INCH) < 35)) {
+                        double distanceLeft = rdsSensorLeft.getDistance(DistanceUnit.INCH);
+                        double distanceRight = rdsSensorRight.getDistance(DistanceUnit.INCH);
+                        double distance = Math.min(distanceRight, distanceLeft);
+                        telemetry.addData("DETECTED: ", distance);
+                        if (distance < 30) {
+                            robotSpeed = 0.4;
+                        }
+                    } else {
+                        telemetry.addData("Not Detected", "rip");
+                        if(!turtleMode) {
+                            robotSpeed = NORMAL_SPEED;
+                        }
                     }
                 }
             }
+
 
             //movement
             drive.setWeightedDrivePower(
                     new Pose2d(
                             -gamepad1.left_stick_y * robotSpeed,
                             -gamepad1.left_stick_x * robotSpeed,
-                            -gamepad1.right_stick_x * robotSpeed
+                            -gamepad1.right_stick_x * robotSpeed * 0.75
                     )
             );
 
@@ -192,28 +196,15 @@ public class BlueFinalTeleOp extends LinearOpMode {
                 Thread.sleep(50);
             }
             //dpad auto movement
-            else if(gamepad2.dpad_up) {
-                if(capServo.getPosition() > 0.2) {
-                    capServo.setDirection(Servo.Direction.REVERSE);
-                    capServo.setPosition(0.2);
-                }
-                else {
-                    capServo.setDirection(Servo.Direction.FORWARD);
-                    capServo.setPosition(0.2);
-                }
-            }
-            else if(gamepad2.dpad_down) {
+            if(gamepad2.dpad_down) {
                 if(capServo.getPosition() > 0.8) {
-                    capServo.setDirection(Servo.Direction.REVERSE);
-                    capServo.setPosition(0.85);
-                }
-                else {
                     capServo.setDirection(Servo.Direction.FORWARD);
                     capServo.setPosition(0.85);
                 }
-            }
-            else {
-                capServo.setPosition(capServo.getPosition());
+                else {
+                    capServo.setDirection(Servo.Direction.REVERSE);
+                    capServo.setPosition(0.85);
+                }
             }
 
             // Update everything. Odometry. Etc.
@@ -221,12 +212,14 @@ public class BlueFinalTeleOp extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("DRIVE", "------------------------------------");
             telemetry.addData("Motor Power ", drive.getWheelVelocities());
+            telemetry.addData("DriveMode: ", (turtleMode)? ("turtleMode"):((rds)? ("RDS"):("Normal")));
+            telemetry.addData("Normal Speed: ", robotSpeed);
+            telemetry.addData("OTHER", "------------------------------------");
             telemetry.addData("LiftMotor Position: ", liftMotor.getCurrentPosition());
             telemetry.addData("BucketServo Position: ", bucketServo.getPosition());
-            telemetry.addData("DriveMode: ", (turtleMode)? ("turtleMode"):("Normal"));
             telemetry.addData("CapServo Position: ", capServo.getPosition());
-            telemetry.addData("Normal Speed: ", robotSpeed);
             telemetry.update();
         }
     }
