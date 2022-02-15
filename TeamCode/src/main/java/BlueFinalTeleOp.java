@@ -129,7 +129,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
             else {
                 liftMotor.setPower(0.0);
                 if((gamepad2.left_trigger == 0 && gamepad1.left_trigger == 0) && (!gamepad1.b && !gamepad2.b) && liftMotor.getCurrentPosition() >= 1000) {
-                    liftMotor.setPower(0.02);
+                    liftMotor.setPower(0.01);
                 }
                 else {
                     liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -139,7 +139,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
             //lift + bucket reset
             if((gamepad2.b || gamepad1.b) && liftMotor.getCurrentPosition() > 0) {
                     bucketServo.setPosition(liftPosition);
-                    liftMotor.setPower(-0.30);
+                    liftMotor.setPower(-0.50);
             }
 
             //turtleMode

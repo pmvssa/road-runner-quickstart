@@ -120,16 +120,16 @@ public class RedFinalTeleOp extends LinearOpMode {
             if(gamepad2.left_trigger != 0 || gamepad1.left_trigger != 0 && liftMotor.getCurrentPosition() >= -100) {
                 liftMotor.setPower(-0.45);
             }
-            else if(gamepad2.right_trigger != 0 || gamepad1.right_trigger != 0 && liftMotor.getCurrentPosition() <= 2100) {
-                if(liftMotor.getCurrentPosition() >= 1200) {
-                    liftMotor.setPower(0.5);
-               }
+            else if(gamepad2.right_trigger != 0 || gamepad1.right_trigger != 0 && liftMotor.getCurrentPosition() <= 2050) {
+                if(liftMotor.getCurrentPosition() >= 1500) {
+                    liftMotor.setPower(0.3);
+                }
                 liftMotor.setPower(0.85);
             }
             else {
                 liftMotor.setPower(0.0);
-                if(liftMotor.getCurrentPosition() >= 1000) {
-                    liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                if((gamepad2.left_trigger == 0 && gamepad1.left_trigger == 0) && (!gamepad1.b && !gamepad2.b) && liftMotor.getCurrentPosition() >= 1000) {
+                    liftMotor.setPower(0.01);
                 }
                 else {
                     liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -139,7 +139,7 @@ public class RedFinalTeleOp extends LinearOpMode {
             //lift + bucket reset
             if((gamepad2.b || gamepad1.b) && liftMotor.getCurrentPosition() > 0) {
                 bucketServo.setPosition(liftPosition);
-                liftMotor.setPower(-0.30);
+                liftMotor.setPower(-0.50);
             }
 
             //turtleMode
