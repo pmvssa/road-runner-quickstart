@@ -30,7 +30,7 @@ public class RedFinalTeleOp extends LinearOpMode {
 
     //otherVariables
     public final double intakePosition = 0.35; //for bucketServo
-    public final double liftPosition = 0.45; //while going up
+    public final double liftPosition = 0.41; //while going up
     public final double dropPosition = 0.87; //to drop element
     public boolean onOff = false;
     public boolean turtleMode = false;
@@ -180,20 +180,18 @@ public class RedFinalTeleOp extends LinearOpMode {
                 rds = false;
             }
             if(!turtleMode && rds) {
-                if(runtime.time(TimeUnit.SECONDS) < 90 && !turtleMode) {
-                    if ((rdsSensorLeft.getDistance(DistanceUnit.INCH) < 35) || (rdsSensorRight.getDistance(DistanceUnit.INCH) < 35)) {
-                        double distanceLeft = rdsSensorLeft.getDistance(DistanceUnit.INCH);
-                        double distanceRight = rdsSensorRight.getDistance(DistanceUnit.INCH);
-                        double distance = Math.min(distanceRight, distanceLeft);
-                        telemetry.addData("DETECTED: ", distance);
-                        if (distance < 30) {
-                            robotSpeed = 0.4;
-                        }
-                    } else {
-                        telemetry.addData("Not Detected", "rip");
-                        if(!turtleMode) {
-                            robotSpeed = NORMAL_SPEED;
-                        }
+                if ((rdsSensorLeft.getDistance(DistanceUnit.INCH) < 35) || (rdsSensorRight.getDistance(DistanceUnit.INCH) < 35)) {
+                    double distanceLeft = rdsSensorLeft.getDistance(DistanceUnit.INCH);
+                    double distanceRight = rdsSensorRight.getDistance(DistanceUnit.INCH);
+                    double distance = Math.min(distanceRight, distanceLeft);
+                    telemetry.addData("DETECTED: ", distance);
+                    if (distance < 24) {
+                        robotSpeed = 0.4;
+                    }
+                } else {
+                    telemetry.addData("Not Detected", "rip");
+                    if(!turtleMode) {
+                        robotSpeed = NORMAL_SPEED;
                     }
                 }
             }
