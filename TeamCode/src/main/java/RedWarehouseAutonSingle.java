@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -34,13 +33,13 @@ public class RedWarehouseAutonSingle extends LinearOpMode {
     private BarcodeDetector bd;
 
     //bucketServo Stages
-    public static final double INTAKE_POSITION = 0.3;
+    public static final double INTAKE_POSITION = 0.35;
     public static final double LIFT_POSITION = 0.40;
     public static final double DROP_POSITION = 0.85;
 
     //liftMotor Stages
     public static final int BOTTOM_LEVEL_POSITION = 1200;
-    public static final int MIDDLE_LEVEL_POSITION = 1600;
+    public static final int MIDDLE_LEVEL_POSITION = 1550;
     public static final int TOP_LEVEL_POSITION = 2000;
 
     //Levels
@@ -82,9 +81,10 @@ public class RedWarehouseAutonSingle extends LinearOpMode {
         bucketServo = hardwareMap.get(Servo.class, "bucketServo");
         liftMotor = hardwareMap.get(DcMotorEx.class, "liftMotor");
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
-        carouselServo = hardwareMap.get(CRServo.class, "leftCarouselServo");
-        carouselServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        //carouselServo = hardwareMap.get(CRServo.class, "leftCarouselServo");
+        //carouselServo.setDirection(DcMotorSimple.Direction.FORWARD);
         bucketServo.setDirection(Servo.Direction.REVERSE);
+
         //OpenCV Recognition
         detectedLevel = bd.getZone();
 
@@ -95,94 +95,76 @@ public class RedWarehouseAutonSingle extends LinearOpMode {
         Pose2d startPose = new Pose2d(0, 0, 0);
         drive.setPoseEstimate(startPose);
         int level = 0;
+
+        bucketServo.setPosition(LIFT_POSITION);
         if(bd.getZone() == TOP_LEVEL) {
-            Trajectory rightTen = drive.trajectoryBuilder(startPose)
-                    .strafeRight(10)
-                    .build();
-            Trajectory dropBlock = drive.trajectoryBuilder(rightTen.end())
-                    .lineToLinearHeading(new Pose2d(18.5, 24, Math.toRadians(14)))
+            Trajectory dropBlock = drive.trajectoryBuilder(startPose)
+                    .lineToLinearHeading(new Pose2d(23, 12, Math.toRadians(27)))
                     .build();
             Trajectory goBack = drive.trajectoryBuilder(dropBlock.end())
-                    .lineToLinearHeading(new Pose2d(0,24, Math.toRadians(90)))
+                    .lineToLinearHeading(new Pose2d(0,19, Math.toRadians(90)))
                     .build();
-            Trajectory goWareHouse = drive.trajectoryBuilder(goBack.end())
-                    .lineToLinearHeading(new Pose2d(0,-36, Math.toRadians(90)),SampleMecanumDrive.getVelocityConstraint(30 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+            Trajectory warehousePark = drive.trajectoryBuilder(goBack.end())
+                    .lineToLinearHeading(new Pose2d(0,-36, Math.toRadians(90)))
                     .build();
-            Trajectory goBack2 = drive.trajectoryBuilder(goWareHouse.end())
-                    .lineToLinearHeading(new Pose2d(0,24, Math.toRadians(90)))
-                    .build();
-            Trajectory dropBlock2 = drive.trajectoryBuilder(goBack2.end())
-                    .lineToLinearHeading(new Pose2d(18.5, 24, Math.toRadians(14)))
-                    .build();
-            Trajectory goBack3 = drive.trajectoryBuilder(dropBlock2.end())
-                    .lineToLinearHeading(new Pose2d(0,24, Math.toRadians(90)))
-                    .build();
-            Trajectory goWareHouse2 = drive.trajectoryBuilder(goBack3.end())
-                    .lineToLinearHeading(new Pose2d(0,-36, Math.toRadians(90)),SampleMecanumDrive.getVelocityConstraint(30 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .build();
-            Trajectory left10 = drive.trajectoryBuilder(goWareHouse2.end())
-                    .strafeLeft(10)
+            Trajectory right = drive.trajectoryBuilder(warehousePark.end())
+                    .strafeRight(20)
                     .build();
 
-            drive.followTrajectory(rightTen);
             drive.followTrajectory(dropBlock);
             dropBlock(TOP_LEVEL);
             liftReset();
             drive.followTrajectory(goBack);
             Thread.sleep(100);
-            drive.followTrajectory(goWareHouse);
-            intakeMotor.setPower(0.5);
-            Thread.sleep(1000);
-            drive.followTrajectory(goBack2);
-            Thread.sleep(100);
-            intakeMotor.setPower(0);
-            drive.followTrajectory(dropBlock2);
-            dropBlock(TOP_LEVEL);
-            liftReset();
-            drive.followTrajectory(goBack3);
-            Thread.sleep(100);
-            drive.followTrajectory(goWareHouse2);
-            drive.followTrajectory(left10);
+            drive.followTrajectory(warehousePark);
+            drive.followTrajectory(right);
         } else if(bd.getZone() == MIDDLE_LEVEL) {
             Trajectory dropBlock = drive.trajectoryBuilder(startPose)
-                    .lineToLinearHeading(new Pose2d(19, 19, Math.toRadians(28)))
+                    .lineToLinearHeading(new Pose2d(23, 12, Math.toRadians(27)))
                     .build();
             Trajectory goBack = drive.trajectoryBuilder(dropBlock.end())
-                    .lineToLinearHeading(new Pose2d(0,24, Math.toRadians(90)))
+                    .lineToLinearHeading(new Pose2d(0,19, Math.toRadians(90)))
                     .build();
-            Trajectory goWareHouse = drive.trajectoryBuilder(goBack.end())
-                    .lineToLinearHeading(new Pose2d(0,-30, Math.toRadians(90)),SampleMecanumDrive.getVelocityConstraint(30 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+            Trajectory warehousePark = drive.trajectoryBuilder(goBack.end())
+                    .lineToLinearHeading(new Pose2d(0,-36, Math.toRadians(90)))
+                    .build();
+            Trajectory right = drive.trajectoryBuilder(warehousePark.end())
+                    .strafeRight(20)
                     .build();
 
             drive.followTrajectory(dropBlock);
             dropBlock(MIDDLE_LEVEL);
             liftReset();
             drive.followTrajectory(goBack);
-
             Thread.sleep(100);
-            drive.followTrajectory(goWareHouse);
+            drive.followTrajectory(warehousePark);
+            drive.followTrajectory(right);
 
         } else if(bd.getZone() == BOTTOM_LEVEL){
-            Trajectory dropBlock = drive.trajectoryBuilder(startPose)
-                    .lineToLinearHeading(new Pose2d(19, 19, Math.toRadians(28)))
+            Trajectory goLeft = drive.trajectoryBuilder(startPose)
+                    .strafeLeft(5)
+                    .build();
+            Trajectory dropBlock = drive.trajectoryBuilder(goLeft.end())
+                    .lineToLinearHeading(new Pose2d(20, 19, Math.toRadians(10)))
                     .build();
             Trajectory goBack = drive.trajectoryBuilder(dropBlock.end())
-                    .lineToLinearHeading(new Pose2d(0,24, Math.toRadians(90)))
+                    .lineToLinearHeading(new Pose2d(0,19, Math.toRadians(90)))
                     .build();
-            Trajectory goWareHouse = drive.trajectoryBuilder(goBack.end())
-                    .lineToLinearHeading(new Pose2d(0,-30, Math.toRadians(90)),SampleMecanumDrive.getVelocityConstraint(30 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+            Trajectory warehousePark = drive.trajectoryBuilder(goBack.end())
+                    .lineToLinearHeading(new Pose2d(0,-36, Math.toRadians(90)))
+                    .build();
+            Trajectory right = drive.trajectoryBuilder(warehousePark.end())
+                    .strafeRight(20)
                     .build();
 
+            drive.followTrajectory(goLeft);
             drive.followTrajectory(dropBlock);
             dropBlock(BOTTOM_LEVEL);
             liftReset();
             drive.followTrajectory(goBack);
             Thread.sleep(100);
-            drive.followTrajectory(goWareHouse);
+            drive.followTrajectory(warehousePark);
+            drive.followTrajectory(right);
         }
 
         while (!isStopRequested() && opModeIsActive()) {
@@ -226,10 +208,10 @@ public class RedWarehouseAutonSingle extends LinearOpMode {
         Thread.sleep(1500);
         bucketServo.setPosition(INTAKE_POSITION);
     }
-    /*public void spinCarousel() throws InterruptedException {
-
+    /*
+    public void spinCarousel() throws InterruptedException {
         carouselServo.setPower(0.45);
         Thread.sleep(100);
     }
-     */
+    */
 }
