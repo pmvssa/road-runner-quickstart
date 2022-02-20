@@ -37,8 +37,8 @@ public class BlueCarouselAuton_ShippingUnitPark extends LinearOpMode {
     private BarcodeDetector bd;
 
     //bucketServo Stages
-    public static final double INTAKE_POSITION = 0.3;
-    public static final double LIFT_POSITION = 0.40;
+    public static final double INTAKE_POSITION = 0.35;
+    public static final double LIFT_POSITION = 0.41;
     public static final double DROP_POSITION = 0.85;
 
     //liftMotor Stages
@@ -215,7 +215,7 @@ public class BlueCarouselAuton_ShippingUnitPark extends LinearOpMode {
                     .lineToLinearHeading(new Pose2d(44, -10, Math.toRadians(0))).build();
 
             Trajectory goBackB = drive.trajectoryBuilder(goBackA.end())
-                    .lineToLinearHeading(new Pose2d(0, 110, Math.toRadians(0))).build();
+                    .lineToLinearHeading(new Pose2d(0, -10, Math.toRadians(0))).build();
 
             Trajectory partCarousel = drive.trajectoryBuilder(goBackB.end())
                     .lineToLinearHeading(new Pose2d(4, -20)).build();
@@ -241,7 +241,7 @@ public class BlueCarouselAuton_ShippingUnitPark extends LinearOpMode {
             Trajectory goBackC = drive.trajectoryBuilder(dropBlockD.end())
                     .lineToLinearHeading(new Pose2d(44, -10,Math.toRadians(0))).build();
 
-            Trajectory park = drive.trajectoryBuilder(dropBlockC.end())
+            Trajectory park = drive.trajectoryBuilder(goBackC.end())
                     .lineToLinearHeading(new Pose2d(30, -24)).build();
 
             //dropping first block
@@ -268,7 +268,7 @@ public class BlueCarouselAuton_ShippingUnitPark extends LinearOpMode {
             //dropping duck
             drive.followTrajectory(dropBlockC);
             drive.followTrajectory(dropBlockD);
-            dropBlock(BOTTOM_LEVEL);
+            dropBlock(TOP_LEVEL);
             liftReset();
             drive.followTrajectory(goBackC);
 

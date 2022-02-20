@@ -24,7 +24,6 @@ public class RedFinalTeleOp extends LinearOpMode {
     public DcMotorEx liftMotor;
     public DcMotorEx intakeMotor;
     public Servo bucketServo;
-    public CRServo leftCarouselServo;
     public CRServo rightCarouselServo;
     public Servo capServo;
 
@@ -32,7 +31,6 @@ public class RedFinalTeleOp extends LinearOpMode {
     public final double intakePosition = 0.35; //for bucketServo
     public final double liftPosition = 0.41; //while going up
     public final double dropPosition = 0.87; //to drop element
-    public boolean onOff = false;
     public boolean turtleMode = false;
     public boolean rds = true;
     public static final double NORMAL_SPEED = 0.8;
@@ -60,9 +58,7 @@ public class RedFinalTeleOp extends LinearOpMode {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
         bucketServo = hardwareMap.get(Servo.class, "bucketServo");
         capServo = hardwareMap.get(Servo.class, "capServo");
-        leftCarouselServo = hardwareMap.get(CRServo.class, "leftCarouselServo");
         rightCarouselServo = hardwareMap.get(CRServo.class, "rightCarouselServo");
-        leftCarouselServo.setDirection(DcMotorSimple.Direction.FORWARD);
         rightCarouselServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         liftMotor = hardwareMap.get(DcMotorEx.class, "liftMotor");
@@ -105,15 +101,11 @@ public class RedFinalTeleOp extends LinearOpMode {
             }
 
             //carousel
-            if(gamepad2.y && !onOff) {
-                onOff = true;
-                rightCarouselServo.setPower(0.69);
+            if(gamepad2.right_stick_y != 0) {
+                rightCarouselServo.setPower(0.8);
             }
-            else if (gamepad2.x && !onOff) {
-                onOff = true;
+            else {
                 rightCarouselServo.setPower(0);
-            } else{
-                onOff = false;
             }
 
             //Lift

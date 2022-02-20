@@ -25,7 +25,6 @@ public class BlueFinalTeleOp extends LinearOpMode {
     public DcMotorEx intakeMotor;
     public Servo bucketServo;
     public CRServo leftCarouselServo;
-    public CRServo rightCarouselServo;
     public Servo capServo;
 
     //otherVariables
@@ -35,9 +34,11 @@ public class BlueFinalTeleOp extends LinearOpMode {
     public boolean onOff = false;
     public boolean turtleMode = false;
     public boolean rds = true;
+    public boolean capSpeed = false;
     public static final double NORMAL_SPEED = 0.8;
     public static final double TURTLE_SPEED = 0.25;
     public double robotSpeed = NORMAL_SPEED;
+    public double rotationSpeed = 0.75;
 
     public DistanceSensor rdsSensorLeft;
     public DistanceSensor rdsSensorRight;
@@ -60,10 +61,8 @@ public class BlueFinalTeleOp extends LinearOpMode {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
         bucketServo = hardwareMap.get(Servo.class, "bucketServo");
         leftCarouselServo = hardwareMap.get(CRServo.class, "leftCarouselServo");
-        rightCarouselServo = hardwareMap.get(CRServo.class, "rightCarouselServo");
         capServo = hardwareMap.get(Servo.class, "capServo");
         leftCarouselServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightCarouselServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         liftMotor = hardwareMap.get(DcMotorEx.class, "liftMotor");
 
@@ -105,15 +104,11 @@ public class BlueFinalTeleOp extends LinearOpMode {
             }
 
             //carousel
-            if(gamepad2.y && !onOff) {
-                onOff = true;
-                leftCarouselServo.setPower(0.69);
+           if(gamepad2.right_stick_y != 0) {
+                leftCarouselServo.setPower(0.8);
             }
-            else if (gamepad2.x && !onOff) {
-                onOff = true;
+            else {
                 leftCarouselServo.setPower(0);
-            } else{
-                onOff = false;
             }
 
             //Lift
@@ -152,6 +147,16 @@ public class BlueFinalTeleOp extends LinearOpMode {
                 robotSpeed = NORMAL_SPEED;
             }
 
+            //capSpeed
+            if(gamepad1.dpad_up && !capSpeed) {
+                rotationSpeed = 1.0;
+            }
+            else if ((gamepad1.dpad_up) && capSpeed) {
+                rds = true;
+                rotationSpeed = 0.75;
+                turtleMode = true;
+            }
+
             //RDS
             if(gamepad1.x) {
                 rds = false;
@@ -179,7 +184,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
                     new Pose2d(
                             -gamepad1.left_stick_y * robotSpeed,
                             -gamepad1.left_stick_x * robotSpeed,
-                            -gamepad1.right_stick_x * robotSpeed * 0.75
+                            -gamepad1.right_stick_x * robotSpeed * rotationSpeed
                     )
             );
 
@@ -218,6 +223,9 @@ public class BlueFinalTeleOp extends LinearOpMode {
             telemetry.addData("LiftMotor Position: ", liftMotor.getCurrentPosition());
             telemetry.addData("BucketServo Position: ", bucketServo.getPosition());
             telemetry.addData("CapServo Position: ", capServo.getPosition());
+            telemetry.addData("LeftCarouselServo: ", onOff);
+            telemetry.addData("caprotation: ", capSpeed);
+
             telemetry.update();
         }
     }
