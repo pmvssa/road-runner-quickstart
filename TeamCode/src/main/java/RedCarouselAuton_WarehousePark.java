@@ -17,8 +17,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Autonomous(name = "Final_RedCarouselAuton_Warehouse", group = "Autonomous")
-public class Final_RedCarouselAuton_Warehouse extends LinearOpMode {
+@Autonomous(name = "RedCarousel_WarehousePark", group = "Autonomous")
+public class RedCarouselAuton_WarehousePark extends LinearOpMode {
 
     // Declare OpMode members.
     private final ElapsedTime runtime = new ElapsedTime();
@@ -204,8 +204,8 @@ public class Final_RedCarouselAuton_Warehouse extends LinearOpMode {
             drive.followTrajectory(park);
         } else if(bd.getZone() == BOTTOM_LEVEL){
             Trajectory moveLeft = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(2, -16))
-                .build();
+                    .lineToLinearHeading(new Pose2d(2, -16))
+                    .build();
             Trajectory dropBlock = drive.trajectoryBuilder(moveLeft.end())
                     .lineToLinearHeading(new Pose2d(20.5, -16, Math.toRadians(-17.5)))
                     .build();
