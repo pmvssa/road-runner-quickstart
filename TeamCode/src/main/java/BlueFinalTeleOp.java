@@ -150,11 +150,14 @@ public class BlueFinalTeleOp extends LinearOpMode {
             //capSpeed
             if(gamepad1.dpad_up && !capSpeed) {
                 rotationSpeed = 1.0;
+                capSpeed = true;
+                
             }
             else if ((gamepad1.dpad_up) && capSpeed) {
                 rds = true;
                 rotationSpeed = 0.75;
                 turtleMode = true;
+                capSpeed = false;
             }
 
             //RDS
