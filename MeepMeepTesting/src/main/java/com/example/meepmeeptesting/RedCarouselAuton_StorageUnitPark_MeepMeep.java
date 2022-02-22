@@ -72,24 +72,30 @@ public class RedCarouselAuton_WarehousePark_MeepMeep {
                             .lineToLinearHeading(new Pose2d(xStart, yStart + 5.5,headingStart + Math.toRadians(-36)))
                             .lineToLinearHeading(new Pose2d(xStart - 18, yStart + 5.5, headingStart))
                             .lineToLinearHeading(new Pose2d(xStart -20, yStart + 5.5, headingStart), SampleMecanumDrive.getVelocityConstraint(12, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
-                            .lineToLinearHeading(new Pose2d(xStart - 16, yStart, headingStart + Math.toRadians(-15)), SampleMecanumDrive.getVelocityConstraint(5, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
-                            .lineToLinearHeading(new Pose2d(xStart - 10, yStart + 0.5, headingStart), SampleMecanumDrive.getVelocityConstraint(10, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
+                            .lineToLinearHeading(new Pose2d(xStart - 16, yStart, headingStart + Math.toRadians(-10)), SampleMecanumDrive.getVelocityConstraint(5, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
+                            .lineToLinearHeading(new Pose2d(xStart - 0, yStart + 0.5, headingStart), SampleMecanumDrive.getVelocityConstraint(10, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
                             .lineToLinearHeading(new Pose2d(xStart + 15, yStart + 25.5, headingStart + Math.toRadians(-39)))
-                            .lineToLinearHeading(new Pose2d(xStart + 27, yStart, headingStart + Math.toRadians(90)))
-                            .back(50)
+                            .back(23)
+                            .lineToLinearHeading(new Pose2d(xStart - 20, yStart + 31, headingStart + Math.toRadians(0)))
                             .build());
 
-//                    .lineToLinearHeading(new Pose2d(25.5, -15, Math.toRadians(-38)))
-//                    .lineToLinearHeading(new Pose2d(5.5, 0, Math.toRadians(-36)))
+
+//                     .lineToLinearHeading(new Pose2d(25.5, -15, Math.toRadians(-38)))
+//                    .lineToLinearHeading(new Pose2d(5.5,0, Math.toRadians(-36)))
 //                    .lineToLinearHeading(new Pose2d(5.5, 18))
-//                    .lineToLinearHeading(new Pose2d(5.5, 20), SampleMecanumDrive.getVelocityConstraint(12, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
-//                    .lineToLinearHeading(new Pose2d(0, 16, Math.toRadians(-15)), SampleMecanumDrive.getVelocityConstraint(5, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
-//                    .lineToLinearHeading(new Pose2d(0.5, 10), SampleMecanumDrive.getVelocityConstraint(10, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
-//                    .lineToLinearHeading(new Pose2d(25.5, -15, Math.toRadians(-39)))
-//                    .lineToLinearHeading(new Pose2d(0, -27, Math.toRadians(90)))
-//                    .back(50)
-//                    .build());
-            // Set field image
+//                    .lineToLinearHeading(new Pose2d(5.5,20),SampleMecanumDrive.getVelocityConstraint(12 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+//                    .lineToLinearHeading(new Pose2d(0,16, Math.toRadians(-10)),SampleMecanumDrive.getVelocityConstraint(5 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)).build();
+//                                        .lineToLinearHeading(new Pose2d(0.5,0),SampleMecanumDrive.getVelocityConstraint(10 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                    SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)).build();
+//                                                            .lineToLinearHeading(new Pose2d(25.5, -15, Math.toRadians(-38)))
+//                    .back(23)
+//                    .lineToLinearHeading(new Pose2d(31, 20))
+
+
+
+
             meepMeep.setBackground(MeepMeep.Background.FIELD_FREIGHTFRENZY_ADI_DARK)
                     .setDarkMode(true)
                     // Background opacity from 0-1
@@ -108,12 +114,44 @@ public class RedCarouselAuton_WarehousePark_MeepMeep {
                             .lineToLinearHeading(new Pose2d(xStart, yStart + 5.5,headingStart + Math.toRadians(-36)))
                             .lineToLinearHeading(new Pose2d(xStart - 18, yStart + 5.5, headingStart))
                             .lineToLinearHeading(new Pose2d(xStart -20, yStart + 5.5, headingStart), SampleMecanumDrive.getVelocityConstraint(12, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
-                            .lineToLinearHeading(new Pose2d(xStart - 16, yStart, headingStart + Math.toRadians(-05)), SampleMecanumDrive.getVelocityConstraint(5, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
+                            .lineToLinearHeading(new Pose2d(xStart - 16, yStart, headingStart + Math.toRadians(-10)), SampleMecanumDrive.getVelocityConstraint(5, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
                             .lineToLinearHeading(new Pose2d(xStart - 0, yStart + 0.5, headingStart), SampleMecanumDrive.getVelocityConstraint(10, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
                             .lineToLinearHeading(new Pose2d(xStart + 15, yStart + 26, headingStart + Math.toRadians(-39)))
-                            .lineToLinearHeading(new Pose2d(xStart + 27, yStart, headingStart + Math.toRadians(90)))
-                            .back(50)
+                            .lineToLinearHeading(new Pose2d(xStart -2, yStart + 3, headingStart + Math.toRadians(-36)))
+                            .lineToLinearHeading(new Pose2d(xStart - 20, yStart + 31, headingStart + Math.toRadians(0)))
                             .build());
+
+
+
+
+//            Trajectory dropBlock = drive.trajectoryBuilder(startPose)
+//                    .lineToLinearHeading(new Pose2d(24.50, -14.25, Math.toRadians(-40)))
+//                    .build();
+//            Trajectory goBack = drive.trajectoryBuilder(dropBlock.end())
+//                    .lineToLinearHeading(new Pose2d(5.5,0, Math.toRadians(-36)))
+//                    .build();
+//            Trajectory partCarousel = drive.trajectoryBuilder(goBack.end())
+//                    .lineToLinearHeading(new Pose2d(5.5, 18))
+//                    .build();
+//            Trajectory carousel = drive.trajectoryBuilder(partCarousel.end())
+//                    .lineToLinearHeading(new Pose2d(5.5,20),SampleMecanumDrive.getVelocityConstraint(12 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+//                    .build();
+//            Trajectory pickDuck = drive.trajectoryBuilder(carousel.end())
+//                    .lineToLinearHeading(new Pose2d(0,16, Math.toRadians(-10)),SampleMecanumDrive.getVelocityConstraint(5 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)).build();
+//            Trajectory moreIntake = drive.trajectoryBuilder(pickDuck.end())
+//                    .lineToLinearHeading(new Pose2d(0.5,0),SampleMecanumDrive.getVelocityConstraint(10 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)).build();
+//            Trajectory dropBlock2 = drive.trajectoryBuilder(moreIntake.end())
+//                    .lineToLinearHeading(new Pose2d(26, -15, Math.toRadians(-39)))
+//                    .build();
+//            Trajectory backten = drive.trajectoryBuilder(dropBlock2.end())
+//                    .lineToLinearHeading(new Pose2d(3, 2, Math.toRadians(-36)))
+//                    .build();
+//            Trajectory park = drive.trajectoryBuilder(backten.end())
+//                    .lineToLinearHeading(new Pose2d(31, 20))
+//                    .build();
 
 //                    .lineToLinearHeading(new Pose2d(24.50, -14.25, Math.toRadians(-40)))
 //                    .lineToLinearHeading(new Pose2d(5.5, 0, Math.toRadians(-36)))
