@@ -43,7 +43,7 @@ public class BlueCarouselAuton_ShippingUnitPark extends LinearOpMode {
 
     //liftMotor Stages
     public static final int BOTTOM_LEVEL_POSITION = 1150;
-    public static final int MIDDLE_LEVEL_POSITION = 1550;
+    public static final int MIDDLE_LEVEL_POSITION = 1500;
     public static final int TOP_LEVEL_POSITION = 2000;
 
     //Levels
