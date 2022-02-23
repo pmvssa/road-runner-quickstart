@@ -99,35 +99,36 @@ public class BlueCarouselAuton_WarehousePark extends LinearOpMode {
         bucketServo.setPosition(LIFT_POSITION);
         if(bd.getZone() == TOP_LEVEL){
             Trajectory dropBlock = drive.trajectoryBuilder(startPose)
-                    .lineToLinearHeading(new Pose2d(24.5, 9.5, Math.toRadians(35)))
+                    .lineToLinearHeading(new Pose2d(25, 9.5, Math.toRadians(35)))
                     .build();
             Trajectory goBack = drive.trajectoryBuilder(dropBlock.end())
                     .lineToLinearHeading(new Pose2d(4,0))
                     .build();
             Trajectory partCarousel = drive.trajectoryBuilder(goBack.end())
-                    .lineToLinearHeading(new Pose2d(4, -20))
+                    .lineToLinearHeading(new Pose2d(6, -20))
                     .build();
             Trajectory carousel = drive.trajectoryBuilder(partCarousel.end())
-                    .lineToLinearHeading(new Pose2d(5.5,-28),SampleMecanumDrive.getVelocityConstraint(12 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    .lineToLinearHeading(new Pose2d(6,-26.5),SampleMecanumDrive.getVelocityConstraint(10 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .build();
             Trajectory pickDuck = drive.trajectoryBuilder(carousel.end())
-                    .lineToLinearHeading(new Pose2d(2,-23, Math.toRadians(10)),SampleMecanumDrive.getVelocityConstraint(5 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    .lineToLinearHeading(new Pose2d(0.5,-22, Math.toRadians(15)),SampleMecanumDrive.getVelocityConstraint(5 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .build();
             Trajectory moreIntake = drive.trajectoryBuilder(pickDuck.end())
-                    .lineToLinearHeading(new Pose2d(0.5,-10),SampleMecanumDrive.getVelocityConstraint(10 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    .lineToLinearHeading(new Pose2d(0.5,-15),SampleMecanumDrive.getVelocityConstraint(10 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .build();
             Trajectory dropBlock2 = drive.trajectoryBuilder(moreIntake.end())
-                    .lineToLinearHeading(new Pose2d(24.5, 8.75, Math.toRadians(35)))
+                    .lineToLinearHeading(new Pose2d(24, 8.25, Math.toRadians(36)))
                     .build();
             Trajectory backten = drive.trajectoryBuilder(dropBlock2.end())
-                    .lineToLinearHeading(new Pose2d(0, 27, Math.toRadians(-90)))
+                    .lineToLinearHeading(new Pose2d(0,27, Math.toRadians(-90)))
                     .build();
             Trajectory park = drive.trajectoryBuilder(backten.end())
-                    .back(50)
+                    .back(48)
                     .build();
+            //Thread.sleep(3000);
             drive.followTrajectory(dropBlock);
             dropBlock(TOP_LEVEL);
             liftReset();
@@ -135,35 +136,34 @@ public class BlueCarouselAuton_WarehousePark extends LinearOpMode {
             drive.followTrajectory(partCarousel);
             drive.followTrajectory(carousel);
             spinCarousel();
-            intakeMotor.setPower(0.6);
-            Thread.sleep(5000);
-            carouselServo.setPower(0);
+            intakeMotor.setPower(0.7);
+            Thread.sleep(6000);
             drive.followTrajectory(pickDuck);
             drive.followTrajectory(moreIntake);
-            bucketServo.setPosition(LIFT_POSITION);
             intakeMotor.setPower(0);
             drive.followTrajectory(dropBlock2);
             dropBlock(TOP_LEVEL);
             liftReset();
             drive.followTrajectory(backten);
+
             drive.followTrajectory(park);
 
         }  else if(bd.getZone() == MIDDLE_LEVEL){
             Trajectory dropBlock = drive.trajectoryBuilder(startPose)
-                    .lineToLinearHeading(new Pose2d(25.5, 8.75, Math.toRadians(40)))
+                    .lineToLinearHeading(new Pose2d(25.75, 8.25, Math.toRadians(40)))
                     .build();
             Trajectory goBack = drive.trajectoryBuilder(dropBlock.end())
                     .lineToLinearHeading(new Pose2d(4,0))
                     .build();
             Trajectory partCarousel = drive.trajectoryBuilder(goBack.end())
-                    .lineToLinearHeading(new Pose2d(4, -20))
+                    .lineToLinearHeading(new Pose2d(6, -20))
                     .build();
             Trajectory carousel = drive.trajectoryBuilder(partCarousel.end())
-                    .lineToLinearHeading(new Pose2d(5.5,-28),SampleMecanumDrive.getVelocityConstraint(12 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    .lineToLinearHeading(new Pose2d(6,-26),SampleMecanumDrive.getVelocityConstraint(8 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .build();
             Trajectory pickDuck = drive.trajectoryBuilder(carousel.end())
-                    .lineToLinearHeading(new Pose2d(2,-23, Math.toRadians(10)),SampleMecanumDrive.getVelocityConstraint(5 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    .lineToLinearHeading(new Pose2d(0.5,-22, Math.toRadians(15)),SampleMecanumDrive.getVelocityConstraint(5 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .build();
             Trajectory moreIntake = drive.trajectoryBuilder(pickDuck.end())
@@ -171,13 +171,13 @@ public class BlueCarouselAuton_WarehousePark extends LinearOpMode {
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .build();
             Trajectory dropBlock2 = drive.trajectoryBuilder(moreIntake.end())
-                    .lineToLinearHeading(new Pose2d(24.5, 8.75, Math.toRadians(35)))
+                    .lineToLinearHeading(new Pose2d(25, 8.25, Math.toRadians(40)))
                     .build();
             Trajectory backten = drive.trajectoryBuilder(dropBlock2.end())
-                    .lineToLinearHeading(new Pose2d(0, 27, Math.toRadians(-90)))
+                    .lineToLinearHeading(new Pose2d(0,27, Math.toRadians(-90)))
                     .build();
             Trajectory park = drive.trajectoryBuilder(backten.end())
-                    .back(50)
+                    .back(48)
                     .build();
             drive.followTrajectory(dropBlock);
             dropBlock(MIDDLE_LEVEL);
@@ -186,7 +186,7 @@ public class BlueCarouselAuton_WarehousePark extends LinearOpMode {
             drive.followTrajectory(partCarousel);
             drive.followTrajectory(carousel);
             spinCarousel();
-            intakeMotor.setPower(0.6);
+            intakeMotor.setPower(0.7);
             Thread.sleep(5000);
             carouselServo.setPower(0);
             drive.followTrajectory(pickDuck);
@@ -199,60 +199,66 @@ public class BlueCarouselAuton_WarehousePark extends LinearOpMode {
             drive.followTrajectory(backten);
             drive.followTrajectory(park);
         } else if(bd.getZone() == BOTTOM_LEVEL){
-            Trajectory moveLeft = drive.trajectoryBuilder(startPose)
-                    .lineToLinearHeading(new Pose2d(2, 16))
-                    .build();
-            Trajectory dropBlock = drive.trajectoryBuilder(moveLeft.end())
-                    .lineToLinearHeading(new Pose2d(20.5, 16, Math.toRadians(17.5)))
-                    .build();
-            Trajectory goBack = drive.trajectoryBuilder(dropBlock.end())
-                    .lineToLinearHeading(new Pose2d(4,0))
-                    .build();
-            Trajectory partCarousel = drive.trajectoryBuilder(goBack.end())
-                    .lineToLinearHeading(new Pose2d(4, -20))
+            Trajectory dropBlockA = drive.trajectoryBuilder(startPose)
+                    .lineToLinearHeading(new Pose2d(40, -9, Math.toRadians(90))).build();
+
+            Trajectory dropBlockB = drive.trajectoryBuilder(dropBlockA.end())
+                    .lineToLinearHeading(new Pose2d(40, 0.25, Math.toRadians(90))).build();
+
+            Trajectory goBackA = drive.trajectoryBuilder(dropBlockB.end())
+                    .lineToLinearHeading(new Pose2d(40, -10, Math.toRadians(0))).build();
+
+            Trajectory partCarousel = drive.trajectoryBuilder(goBackA.end())
+                    .lineToLinearHeading(new Pose2d(6, -20))
                     .build();
             Trajectory carousel = drive.trajectoryBuilder(partCarousel.end())
-                    .lineToLinearHeading(new Pose2d(5.5,-28),SampleMecanumDrive.getVelocityConstraint(12 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    .lineToLinearHeading(new Pose2d(6,-26),SampleMecanumDrive.getVelocityConstraint(8 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .build();
             Trajectory pickDuck = drive.trajectoryBuilder(carousel.end())
-                    .lineToLinearHeading(new Pose2d(2,-23, Math.toRadians(10)),SampleMecanumDrive.getVelocityConstraint(5 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    .lineToLinearHeading(new Pose2d(0.5,-22, Math.toRadians(11)),SampleMecanumDrive.getVelocityConstraint(5 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .build();
             Trajectory moreIntake = drive.trajectoryBuilder(pickDuck.end())
-                    .lineToLinearHeading(new Pose2d(0.5,-10),SampleMecanumDrive.getVelocityConstraint(10 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    .lineToLinearHeading(new Pose2d(0.5,-12),SampleMecanumDrive.getVelocityConstraint(10 , DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .build();
-            Trajectory dropBlock2 = drive.trajectoryBuilder(moreIntake.end())
-                    .lineToLinearHeading(new Pose2d(21, 16, Math.toRadians(12)))
-                    .build();
-            Trajectory backten = drive.trajectoryBuilder(dropBlock2.end())
-                    .lineToLinearHeading(new Pose2d(0, 27, Math.toRadians(-90)))
-                    .build();
-            Trajectory park = drive.trajectoryBuilder(backten.end())
-                    .back(50)
-                    .build();
-            drive.followTrajectory(moveLeft);
-            drive.followTrajectory(dropBlock);
+            Trajectory dropBlockC = drive.trajectoryBuilder(moreIntake.end())
+                    .lineToLinearHeading(new Pose2d(40, -9, Math.toRadians(90))).build();
+
+            Trajectory dropBlockD = drive.trajectoryBuilder(dropBlockC.end())
+                    .lineToLinearHeading(new Pose2d(40, -0.5, Math.toRadians(90))).build();
+
+            Trajectory park = drive.trajectoryBuilder(dropBlockD.end())
+                    .lineToLinearHeading(new Pose2d(28, -28)).build();
+
+            //dropping first block
+            drive.followTrajectory(dropBlockA);
+            drive.followTrajectory(dropBlockB);
             dropBlock(BOTTOM_LEVEL);
             liftReset();
-            drive.followTrajectory(goBack);
+            drive.followTrajectory(goBackA);
+
+            //delivering and collecting the duck
             drive.followTrajectory(partCarousel);
             drive.followTrajectory(carousel);
             spinCarousel();
-            intakeMotor.setPower(0.6);
-            Thread.sleep(5000);
+            intakeMotor.setPower(0.7);
+            Thread.sleep(4000);
             carouselServo.setPower(0);
             drive.followTrajectory(pickDuck);
             drive.followTrajectory(moreIntake);
             bucketServo.setPosition(LIFT_POSITION);
             intakeMotor.setPower(0);
-            drive.followTrajectory(dropBlock2);
+
+            //dropping duck
+            drive.followTrajectory(dropBlockC);
+            drive.followTrajectory(dropBlockD);
             dropBlock(TOP_LEVEL);
             liftReset();
-            drive.followTrajectory(backten);
+
+            //parking
             drive.followTrajectory(park);
-            intakeMotor.setPower(0.6);
         }
 
         while (!isStopRequested() && opModeIsActive()) {

@@ -105,7 +105,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
 
             //carousel
            if(gamepad2.right_stick_y != 0) {
-                leftCarouselServo.setPower(0.8);
+                leftCarouselServo.setPower(1.0);
             }
             else {
                 leftCarouselServo.setPower(0);
@@ -171,8 +171,8 @@ public class BlueFinalTeleOp extends LinearOpMode {
                     double distanceRight = rdsSensorRight.getDistance(DistanceUnit.INCH);
                     double distance = Math.min(distanceRight, distanceLeft);
                     telemetry.addData("DETECTED: ", distance);
-                    if (distance < 24) {
-                        robotSpeed = 0.4;
+                    if (distance < 18) {
+                        robotSpeed = 0.5;
                     }
                 } else {
                     telemetry.addData("Not Detected", "rip");
@@ -203,7 +203,7 @@ public class BlueFinalTeleOp extends LinearOpMode {
                 Thread.sleep(50);
             }
             //dpad auto movement
-            if(gamepad2.dpad_down) {
+            if(gamepad2.y) {
                 if(capServo.getPosition() > 0.8) {
                     capServo.setDirection(Servo.Direction.FORWARD);
                     capServo.setPosition(0.85);

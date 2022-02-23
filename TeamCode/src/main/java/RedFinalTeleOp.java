@@ -102,7 +102,7 @@ public class RedFinalTeleOp extends LinearOpMode {
 
             //carousel
             if(gamepad2.right_stick_y != 0) {
-                rightCarouselServo.setPower(0.8);
+                rightCarouselServo.setPower(1.0);
             }
             else {
                 rightCarouselServo.setPower(0);
@@ -177,8 +177,8 @@ public class RedFinalTeleOp extends LinearOpMode {
                     double distanceRight = rdsSensorRight.getDistance(DistanceUnit.INCH);
                     double distance = Math.min(distanceRight, distanceLeft);
                     telemetry.addData("DETECTED: ", distance);
-                    if (distance < 24) {
-                        robotSpeed = 0.4;
+                    if (distance < 18) {
+                        robotSpeed = 0.5;
                     }
                 } else {
                     telemetry.addData("Not Detected", "rip");
