@@ -18,7 +18,7 @@ public class RedCarouselAuton_WarehousePark_MeepMeep {
         // With a field size of 800 pixels
         MeepMeep meepMeep = new MeepMeep(800);
         int xStart = -36;
-        int yStart = -63;
+        int yStart = -60;
         double headingStart = Math.toRadians(90);
 
         //myStatic variables
@@ -27,7 +27,7 @@ public class RedCarouselAuton_WarehousePark_MeepMeep {
         int BOTTOM_LEVEL = 1;
 
         //Enter Level;
-        int currLevel = 2;
+        int currLevel = 3;
 
         Pose2d startPose = new Pose2d(xStart,yStart, headingStart);
 
@@ -69,12 +69,15 @@ public class RedCarouselAuton_WarehousePark_MeepMeep {
                     .setColorScheme(new ColorSchemeRedLight())
                     .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(startPose)
                             .lineToLinearHeading(new Pose2d(xStart + 15, yStart + 25.5, headingStart + Math.toRadians(-38)))
+                            .waitSeconds(1.5)
                             .lineToLinearHeading(new Pose2d(xStart, yStart + 5.5,headingStart + Math.toRadians(-36)))
                             .lineToLinearHeading(new Pose2d(xStart - 18, yStart + 5.5, headingStart))
                             .lineToLinearHeading(new Pose2d(xStart -20, yStart + 5.5, headingStart), SampleMecanumDrive.getVelocityConstraint(12, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
+                            .waitSeconds(1.5)
                             .lineToLinearHeading(new Pose2d(xStart - 16, yStart, headingStart + Math.toRadians(-15)), SampleMecanumDrive.getVelocityConstraint(5, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
                             .lineToLinearHeading(new Pose2d(xStart - 10, yStart + 0.5, headingStart), SampleMecanumDrive.getVelocityConstraint(10, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
                             .lineToLinearHeading(new Pose2d(xStart + 15, yStart + 25.5, headingStart + Math.toRadians(-39)))
+                            .waitSeconds(1.5)
                             .lineToLinearHeading(new Pose2d(xStart + 27, yStart, headingStart + Math.toRadians(90)))
                             .back(50)
                             .build());
@@ -105,12 +108,15 @@ public class RedCarouselAuton_WarehousePark_MeepMeep {
                     .setColorScheme(new ColorSchemeRedLight())
                     .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(startPose)
                             .lineToLinearHeading(new Pose2d(xStart + 14.25, yStart + 24.5, headingStart + Math.toRadians(-40)))
+                            .waitSeconds(1.5)
                             .lineToLinearHeading(new Pose2d(xStart, yStart + 5.5,headingStart + Math.toRadians(-36)))
                             .lineToLinearHeading(new Pose2d(xStart - 18, yStart + 5.5, headingStart))
                             .lineToLinearHeading(new Pose2d(xStart -20, yStart + 5.5, headingStart), SampleMecanumDrive.getVelocityConstraint(12, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
+                            .waitSeconds(1.5)
                             .lineToLinearHeading(new Pose2d(xStart - 16, yStart, headingStart + Math.toRadians(-05)), SampleMecanumDrive.getVelocityConstraint(5, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
                             .lineToLinearHeading(new Pose2d(xStart - 0, yStart + 0.5, headingStart), SampleMecanumDrive.getVelocityConstraint(10, 4.95, 12.07), SampleMecanumDrive.getAccelerationConstraint(90))
                             .lineToLinearHeading(new Pose2d(xStart + 15, yStart + 26, headingStart + Math.toRadians(-39)))
+                            .waitSeconds(1.5)
                             .lineToLinearHeading(new Pose2d(xStart + 27, yStart, headingStart + Math.toRadians(90)))
                             .back(50)
                             .build());
